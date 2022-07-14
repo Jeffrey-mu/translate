@@ -135,7 +135,14 @@ export default defineConfig({
       inline: ['@vue', '@vueuse', 'vue-demi'],
     },
   },
-
+  server: {
+    proxy: {
+      '/api/': {
+        target: 'https://fanyi-api.baidu.com/api/trans/vip/',
+        changeOrigin: true,
+      },
+    },
+  },
   // https://github.com/antfu/vite-ssg
   ssgOptions: {
     script: 'async',

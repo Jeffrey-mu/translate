@@ -16,6 +16,7 @@ specifiers:
   eslint: ^8.19.0
   eslint-plugin-cypress: ^2.12.1
   https-localhost: ^4.7.1
+  jquery: ^3.6.0
   markdown-it-link-attributes: ^4.0.0
   markdown-it-prism: ^2.2.4
   nprogress: ^0.2.0
@@ -66,6 +67,7 @@ devDependencies:
   eslint: 8.19.0
   eslint-plugin-cypress: 2.12.1_eslint@8.19.0
   https-localhost: 4.7.1
+  jquery: registry.npmjs.org/jquery/3.6.0
   markdown-it-link-attributes: 4.0.0
   markdown-it-prism: 2.2.4
   pnpm: 7.5.1
@@ -7837,6 +7839,12 @@ packages:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.10.tgz}
     name: graceful-fs
     version: 4.2.10
+    dev: true
+
+  registry.npmjs.org/jquery/3.6.0:
+    resolution: {integrity: sha512-JVzAR/AjBvVt2BmYhxRCSYysDsPcssdmTFnzyLEts9qNwmjmu4JTAMYubEfwVOSwpQ1I1sKKFcxhZCI2buerfw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jquery/-/jquery-3.6.0.tgz}
+    name: jquery
+    version: 3.6.0
     dev: true
 
   registry.npmjs.org/jsonc-eslint-parser/1.4.1:

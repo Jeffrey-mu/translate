@@ -1,58 +1,46 @@
 <script setup lang="ts">
-const user = useUserStore()
-const name = $ref(user.savedName)
-
-const router = useRouter()
-const go = () => {
-  if (name)
-    router.push(`/hi/${encodeURIComponent(name)}`)
+import jquery from 'jquery'
+import { MD5 } from '~/composables/MD5'
+function post() {
+  const appid = '20220714001272917'
+  const key = '8opPuZm3M9Cle5IufRIc'
+  const salt = (new Date()).getTime()
+  // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
+  const from = 'en'
+  const to = 'zh'
+  const str1 = appid + input.value + salt + key
+  const sign = MD5(str1)
+  jquery.ajax({
+    url: 'http://api.fanyi.baidu.com/api/trans/vip/translate',
+    type: 'get',
+    dataType: 'jsonp',
+    data: {
+      q: input.value,
+      appid,
+      salt,
+      from,
+      to,
+      sign,
+    },
+    success(data) {
+      console.log(data)
+    },
+  })
 }
+const debouncedFn = useDebounceFn(post, 300)
+const input = ref<string>('')
+const output = ref<string>('')
+watch(input, () => {
+  console.log(123)
 
-const { t } = useI18n()
+  debouncedFn()
+})
 </script>
 
 <template>
-  <div>
-    <div text-4xl>
-      <div i-carbon-campsite inline-block />
-    </div>
-    <p>
-      <a rel="noreferrer" href="https://github.com/antfu/vitesse" target="_blank">
-        Vitesse
-      </a>
-    </p>
-    <p>
-      <em text-sm opacity-75>{{ t('intro.desc') }}</em>
-    </p>
-
-    <div py-4 />
-
-    <input
-      id="input"
-      v-model="name"
-      :placeholder="t('intro.whats-your-name')"
-      :aria-label="t('intro.whats-your-name')"
-      type="text"
-      autocomplete="false"
-      p="x4 y2"
-      w="250px"
-      text="center"
-      bg="transparent"
-      border="~ rounded gray-200 dark:gray-700"
-      outline="none active:none"
-      @keydown.enter="go"
-    >
-    <label class="hidden" for="input">{{ t('intro.whats-your-name') }}</label>
-
-    <div>
-      <button
-        btn m-3 text-sm
-        :disabled="!name"
-        @click="go"
-      >
-        {{ t('button.go') }}
-      </button>
-    </div>
+  <div flex="~">
+    <textarea id="" v-model="input" flex="1" border mr-2 name="" cols="30" rows="10" />
+    <textarea id="" v-model="output" flex="1" border name="" cols="30" rows="10" />
   </div>
 </template>
 
