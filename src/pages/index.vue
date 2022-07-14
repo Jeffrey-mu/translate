@@ -28,9 +28,9 @@ function changeIndex(index: number): void {
       {{ item.label }}
     </button>
   </div>
-  <div flex="~ " justify-center>
-    <textarea id="" v-model="input" w-200 border mr-2 name="" cols="30" rows="10" />
-    <textarea id="" v-model="output" w-200 border name="" cols="30" rows="10" disabled />
+  <div>
+    <textarea id="" v-model="input" w-40vw border mr-2 name="" cols="30" rows="10" />
+    <textarea id="" v-model="output" w-40vw border name="" cols="30" rows="10" disabled />
   </div>
 </template>
 
