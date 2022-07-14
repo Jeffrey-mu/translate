@@ -41,7 +41,7 @@ export function getData(input: string, from = 'zh', to = 'en'): Promise<string> 
   const sign = MD5(str1)
   return new Promise<string>((resolve, reject) => {
     jquery.ajax({
-      url: 'http://api.fanyi.baidu.com/api/trans/vip/translate',
+      url: 'https://api.fanyi.baidu.com/api/trans/vip/translate',
       type: 'get',
       dataType: 'jsonp',
       data: {
