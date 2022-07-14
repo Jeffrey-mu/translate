@@ -1,46 +1,36 @@
 <script setup lang="ts">
-import jquery from 'jquery'
-import { MD5 } from '~/composables/MD5'
-function post() {
-  const appid = '20220714001272917'
-  const key = '8opPuZm3M9Cle5IufRIc'
-  const salt = (new Date()).getTime()
-  // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
-  const from = 'en'
-  const to = 'zh'
-  const str1 = appid + input.value + salt + key
-  const sign = MD5(str1)
-  jquery.ajax({
-    url: 'http://api.fanyi.baidu.com/api/trans/vip/translate',
-    type: 'get',
-    dataType: 'jsonp',
-    data: {
-      q: input.value,
-      appid,
-      salt,
-      from,
-      to,
-      sign,
-    },
-    success(data) {
-      console.log(data)
-    },
-  })
-}
-const debouncedFn = useDebounceFn(post, 300)
+import { DST, getData } from '~/composables/outpu'
+
 const input = ref<string>('')
 const output = ref<string>('')
+const from = ref<string>('auto')
+const to = ref<string>('en')
+const active = ref<number>(0)
+const debouncedFn = useDebounceFn(async () => {
+  output.value = ((await getData(input.value, from.value, to.value)) as any).trans_result?.at(0)?.dst || ''
+  // console.log(await getData(input.value))
+}, 300)
 watch(input, () => {
-  console.log(123)
-
+  output.value = ''
   debouncedFn()
 })
+function changeIndex(index: number): void {
+  active.value = index
+  to.value = DST[index].t
+  from.value = DST[index].f
+  debouncedFn()
+}
 </script>
 
 <template>
-  <div flex="~">
-    <textarea id="" v-model="input" flex="1" border mr-2 name="" cols="30" rows="10" />
-    <textarea id="" v-model="output" flex="1" border name="" cols="30" rows="10" />
+  <div flex justify-center mb-2>
+    <button v-for="item, index in DST" :key="index" border rd bg-green p-1 c-white ml-2 hover="bg-yellow/200 c-#111" :class="[index === active ? 'bg-red' : '']" @click="changeIndex(index)">
+      {{ item.label }}
+    </button>
+  </div>
+  <div flex="~ " justify-center>
+    <textarea id="" v-model="input" w-200 border mr-2 name="" cols="30" rows="10" />
+    <textarea id="" v-model="output" w-200 border name="" cols="30" rows="10" disabled />
   </div>
 </template>
 
@@ -48,3 +38,14 @@ watch(input, () => {
 meta:
   layout: home
 </route>
+
+<style>
+textarea {
+  border-radius: 20px;
+  padding: 10px !important;
+}
+.dark textarea {
+  background: #111;
+  color: aliceblue;
+}
+</style>
